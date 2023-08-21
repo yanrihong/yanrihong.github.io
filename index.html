@@ -1,7 +1,186 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Video Semantic Segmentation with Distortion-Aware Feature Correction</title>
+
+    <!-- Meta tags for search engines to crawl -->
+    <meta name="robots" content="index,follow">
+    <meta name="description" content="Video-Inpainting.&gt;
+&lt;meta name=" keywords"="">
+
+    <!-- Fonts and stuff -->
+    <link href="./resource/css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="./resource/project.css" media="screen">
+    <link rel="stylesheet" type="text/css" media="screen" href="./resource/iconize.css">
+    <script type="text/javascript" async="" src="./resource/ga.js.download"></script>
+    <script async="" src="./resource/prettify.js.download"></script>
+
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-22940424-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+
+</head>
+
 <body>
-<h1>Hello World</h1>
-<p>I m yanrihong.</p>
+    <div id="content">
+        <div id="content-inner">
+
+            <div class="section head">
+                <h1>Video Semantic Segmentation with <br> Distortion-Aware Feature Correction</h1>
+
+                <div class="authors">
+                    <a href="https://scholar.google.com/citations?user=KbWzCu4AAAAJ&hl=zh-CN">Jiafan
+                        Zhuang<sup>1</sup></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="https://scholar.google.com/citations?user=tMO7jm4AAAAJ&hl=zh-CN">Zilei
+                        Wang<sup>1</sup></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="https://scholar.google.com/citations?user=6BPcMvIAAAAJ&hl=zh-CN">Bingke
+                        Wang<sup>1</sup></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </div>
+
+                <div class="affiliations">
+                    <sup>1</sup> <a href="https://vim.ustc.edu.cn" target="_blank">VIM Lab, University of Science and
+                        Technology of China</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+                </div>
+
+                <div class="venue"></div>
+            </div>
+
+
+            <div class="section demo">
+                <br>
+                <center><iframe width="840" height="480" src="https://www.youtube.com/embed/DsyK0rXThcM">
+                    </iframe></center>
+                <br>
+                <center>
+                    <a href="https://www.dropbox.com/s/40rnzbhn1hgb58y/demo.mp4?dl=0"> Download
+                        Demo Video</a>
+                </center>
+            </div>
+
+            <div class="section abstract">
+                <h2>Abstract</h2>
+                <br>
+                <p>
+                    Video semantic segmentation targets to generate accurate semantic map for each frame in a video. For
+                    such a task, conducting per-frame image segmentation is generally unacceptable in practice due to
+                    high computational cost. To address the issue, many works use the flow-based feature propagation to
+                    reuse the features of previous frames, which actually exploits the content continuity of consecutive
+                    frames. However, the optical flow estimation itself inevitably suffers inaccuracy and consequently
+                    would cause the propagated features distorted. In this paper, we propose a distortion-aware feature
+                    correction method with aims of improving video segmentation performance at a low price. The core
+                    idea is to mainly correct the features on distorted regions using the current frame, while the
+                    propagated features are reserved for other regions. As a result, a lightweight network can be enough
+                    to achieve promising segmentation results. In particular, we propose to predict the distorted
+                    regions in the image space by utilizing the consistency of distortion patterns for images and
+                    features, such that the high-cost feature extraction for the current frames can be avoided. We
+                    conduct the extensive experiments on Cityscapes and CamVid, and the results show that our proposed
+                    method significantly outperforms previous methods and achieves the state-of-the-art performance on
+                    both segmentation accuracy and speed.
+
+                </p>
+            </div>
+
+            <div class="section framework">
+                <h2>Framework</h2>
+                <br>
+                <center><img src="./image/framework.png" border="0" width="80%"></center>
+                <br>
+                <p>
+                    The framework of our proposed approach is illustrated, where semantic segmentation is performed on
+                    the features of each frame individually. To be specific, each of video frames is treated as the key
+                    or non-key frame. For the key frames, we directly conduct image semantic segmentation to get the
+                    results using an off-the-shelf network, and the intermediate features are used to propagate to the
+                    subsequent non-key frames. In particular, we propagate the features frame-by-frame in this work.
+                    That is, the feature of current frame is first obtained by propagating that of the previous frame,
+                    in which the predicted optical flow is used as the guidance and the bilinear interpolate is adopt as
+                    the warping operator. At the same time, we propagate the image of video frame as for feature
+                    propagation with the same optical flow, resulting in the propagated frame. For the non-key frames,
+                    we first feed the propagated frame and current frame into our proposed distortion map network
+                    (DMNet) to predict a distortion map, which actually represents the distortion pattern of propagated
+                    feature. Then we use the current frame to rectify the propagated feature under the guidance of the
+                    predicted distortion map, which is completed in our proposed feature correction module (FCM).
+                    Finally, we conduct semantic segmentation on the corrected feature to get the segmentation result of
+                    current frame.
+                </p>
+            </div>
+
+            <div class="section visualization">
+                <h2>Experimental Results</h2>
+                We provide results on Cityscapes val subset and CamVid test subset. DFF and Accel50 are reimplemented
+                using DeepLabv3+ and the same FlowNet as in our method. In particular, visualization comparisons are
+                demonstrated, where T + i denotes the i-th frame from the key frame T. Besides, we calculate the average
+                computation cost by fixing the propagation distance as 5 for all methods. A lighter color in colorbar
+                represents higher computation cost. Best viewed in color and zoom in.
+                <h3>Cityscapes</h3>
+                <br>
+                <center><img src="./image/cityscapes_metric.png" border="0" width="70%"></center>
+                <center><img src="./image/cityscapes_56.png" border="0" width="90%"></center>
+                <center><img src="./image/cityscapes_85.png" border="0" width="90%"></center>
+                <center><img src="./image/cityscapes_136.png" border="0" width="90%"></center>
+
+                <h3>CamVid</h3>
+                <br>
+                <center><img src="./image/camvid_metric.png" border="0" width="70%"></center>
+                <center><img src="./image/camvid_47.png" border="0" width="70%"></center>
+                <center><img src="./image/camvid_164.png" border="0" width="70%"></center>
+                <center><img src="./image/camvid_220.png" border="0" width="70%"></center>
+
+            </div>
+
+            <div class="section materials">
+                <h2>Materials</h2>
+                <center>
+                    <ul>
+
+                        <li class="grid">
+                            <div class="griditem">
+                                <a href="https://arxiv.org/abs/2006.10380" target="_blank" class="imageLink"><img
+                                        src="./image/paper.png" border="0" width="50%"></a><br>
+                                <a href="https://arxiv.org/abs/2006.10380" target="_blank">Paper</a>
+                            </div>
+                        </li>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                        <li class="grid">
+                            <div class="griditem">
+                                <a href="https://github.com/jfzhuang/DAVSS"><img src="./image/code.png"></a><br>
+                                <a href="https://github.com/jfzhuang/DAVSS">Codes</a>
+                            </div>
+                        </li>
+
+                    </ul>
+                </center>
+            </div>
+
+            <br>
+
+            <div class="section citation">
+                <h2>Citation</h2>
+                <div class="section bibtex">
+                    <pre>@article{zhuang2020video,
+  title={Video Semantic Segmentation with Distortion-Aware Feature Correction},
+  author={Zhuang, Jiafan and Wang, Zilei and Wang, Bingke},
+  journal={arXiv preprint arXiv:2006.10380},
+  year={2020}
+}</pre>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </body>
+
 </html>
