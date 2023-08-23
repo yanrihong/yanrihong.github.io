@@ -3,8 +3,37 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
+
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Video Semantic Segmentation with Distortion-Aware Feature Correction</title>
+    <title>Why does Stereo Triangulation Not Work in UAV Distance Estimation </title>
+
+    <style>
+        h1 {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 32px;
+            font-style: normal;
+            font-weight: lighter;
+            font-variant: small-caps;
+        }
+​
+        h2 {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 32px;
+            font-style: italic;
+            font-weight: bold;
+        }
+​
+        h3 {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 32px;
+            font-style: oblique;
+            font-weight: bolder;
+        }
+​
+        p {
+            font: italic small-caps bold larger 仿宋;
+        }
+    </style>
 
     <!-- Meta tags for search engines to crawl -->
     <meta name="robots" content="index,follow">
@@ -17,6 +46,9 @@
     <link rel="stylesheet" type="text/css" media="screen" href="./resource/iconize.css">
     <script type="text/javascript" async="" src="./resource/ga.js.download"></script>
     <script async="" src="./resource/prettify.js.download"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha384-fhYLJZkbU8EZ0R6AxN8I6YTILgGrhYZVXZ2j24MVKSTOvqtCPcd6yAevPl+4TuRW" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha384-XI4F3vouKmuyjRcSjWc2mNMaUZFby1FYX0GHoDcgD4TL8O6cWsDHdNp3Zu9SS3hR" crossorigin="anonymous"></script>
 
     <script type="text/javascript">
 
@@ -39,20 +71,24 @@
         <div id="content-inner">
 
             <div class="section head">
-                <h1>Video Semantic Segmentation with <br> Distortion-Aware Feature Correction</h1>
+                <h1>Why does Stereo Triangulation
+ <br>Not Work in UAV Distance Estimation</h1>
 
                 <div class="authors">
                     <a href="https://scholar.google.com/citations?user=KbWzCu4AAAAJ&hl=zh-CN">Jiafan
-                        Zhuang<sup>1</sup></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="https://scholar.google.com/citations?user=tMO7jm4AAAAJ&hl=zh-CN">Zilei
-                        Wang<sup>1</sup></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="https://scholar.google.com/citations?user=6BPcMvIAAAAJ&hl=zh-CN">Bingke
-                        Wang<sup>1</sup></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        Zhuang</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="https://scholar.google.com/citations?user=tMO7jm4AAAAJ&hl=zh-CN">Duan Yuan</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="https://scholar.google.com/citations?user=6BPcMvIAAAAJ&hl=zh-CN">Rihong Yan</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="https://scholar.google.com/citations?user=KbWzCu4AAAAJ&hl=zh-CN">Xiangyu Dong</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="https://scholar.google.com/citations?user=KbWzCu4AAAAJ&hl=zh-CN">Yutao Zhou</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="https://scholar.google.com/citations?user=KbWzCu4AAAAJ&hl=zh-CN">Weixin Huang</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="https://scholar.google.com/citations?user=KbWzCu4AAAAJ&hl=zh-CN">Wenji Li</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="https://scholar.google.com/citations?user=KbWzCu4AAAAJ&hl=zh-CN">Zhun Fan</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
                 </div>
 
                 <div class="affiliations">
-                    <sup>1</sup> <a href="https://vim.ustc.edu.cn" target="_blank">VIM Lab, University of Science and
-                        Technology of China</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+                    <sup>1</sup> <a href="http://imagelab.stu.edu.cn/index.jsp" target="_blank">Image Lab,ShanTou University</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
                 </div>
 
                 <div class="venue"></div>
@@ -74,21 +110,26 @@
                 <h2>Abstract</h2>
                 <br>
                 <p>
-                    Video semantic segmentation targets to generate accurate semantic map for each frame in a video. For
-                    such a task, conducting per-frame image segmentation is generally unacceptable in practice due to
-                    high computational cost. To address the issue, many works use the flow-based feature propagation to
-                    reuse the features of previous frames, which actually exploits the content continuity of consecutive
-                    frames. However, the optical flow estimation itself inevitably suffers inaccuracy and consequently
-                    would cause the propagated features distorted. In this paper, we propose a distortion-aware feature
-                    correction method with aims of improving video segmentation performance at a low price. The core
-                    idea is to mainly correct the features on distorted regions using the current frame, while the
-                    propagated features are reserved for other regions. As a result, a lightweight network can be enough
-                    to achieve promising segmentation results. In particular, we propose to predict the distorted
-                    regions in the image space by utilizing the consistency of distortion patterns for images and
-                    features, such that the high-cost feature extraction for the current frames can be avoided. We
-                    conduct the extensive experiments on Cityscapes and CamVid, and the results show that our proposed
-                    method significantly outperforms previous methods and achieves the state-of-the-art performance on
-                    both segmentation accuracy and speed.
+
+    	 Distance estimation plays an important role for path planning
+and collision avoidance of swarm UAVs. However, the lack of annotated
+data seriously hinders the related studies. In this work, we build and
+present a UAVDE dataset for UAV distance estimation, in which distance
+between two UAVs is obtained by UWB sensors. During experiments,
+we surprisingly observe that the stereo triangulation cannot stand for
+UAV scenes. The core reason is the position deviation issue due to
+long shooting distance and camera vibration, which is common in UAV
+scenes. To tackle this issue, we propose a novel position correction
+module, which can directly predict the offset between the observed
+positions and the actual ones and then perform compensation in stereo
+triangulation calculation. Besides, to further boost performance on hard
+samples, we propose a dynamic iterative correction mechanism, which
+is composed of multiple stacked PCMs and a gating mechanism to
+adaptively determine whether further correction is required according
+to the difficulty of data samples. We conduct extensive experiments on
+UAVDE, and our method can achieve a significant performance improvement over a strong baseline (by reducing the relative difference from
+49.4% to 9.8%), which demonstrates its effectiveness and superiority.
+The code and dataset are available at https://XXX.
 
                 </p>
             </div>
@@ -96,47 +137,49 @@
             <div class="section framework">
                 <h2>Framework</h2>
                 <br>
-                <center><img src="./image/framework.png" border="0" width="80%"></center>
+                <center><img src="./figure/pdf2png/dynamic/dynamic-1.png" border="0" width="100%"></center>
+                <center><img src="./figure/pdf2png/pcm/pcm-1.png" border="0" width="50%"></center>
+
                 <br>
                 <p>
-                    The framework of our proposed approach is illustrated, where semantic segmentation is performed on
-                    the features of each frame individually. To be specific, each of video frames is treated as the key
-                    or non-key frame. For the key frames, we directly conduct image semantic segmentation to get the
-                    results using an off-the-shelf network, and the intermediate features are used to propagate to the
-                    subsequent non-key frames. In particular, we propagate the features frame-by-frame in this work.
-                    That is, the feature of current frame is first obtained by propagating that of the previous frame,
-                    in which the predicted optical flow is used as the guidance and the bilinear interpolate is adopt as
-                    the warping operator. At the same time, we propagate the image of video frame as for feature
-                    propagation with the same optical flow, resulting in the propagated frame. For the non-key frames,
-                    we first feed the propagated frame and current frame into our proposed distortion map network
-                    (DMNet) to predict a distortion map, which actually represents the distortion pattern of propagated
-                    feature. Then we use the current frame to rectify the propagated feature under the guidance of the
-                    predicted distortion map, which is completed in our proposed feature correction module (FCM).
-                    Finally, we conduct semantic segmentation on the corrected feature to get the segmentation result of
-                    current frame.
+                    In this paper, we focus on the UAV distance estimation problem, which is practically important but rarely studied. To aid the study, we build a novel UAVDE dataset, and surprisingly find that the commonly used stereo triangulation paradigm does not work in UAV scenes. The main reason is the position deviation issue caused by the small baseline-to-depth ratio, large focal length and the vibrations on camera system, which are common in UAV scenes. To tackle this issue, we propose a novel position correction module (PCM) to explicitly predict the offset between the observed and actual positions of the target UAV, which is used for compensation in stereo triangulation calculation. Besides, we design a dynamic iterative correction (DIC) mechanism to further improve the correction effect on hard samples. Extensive experiments validate the effectiveness and superiority of our method.
                 </p>
             </div>
 
             <div class="section visualization">
                 <h2>Experimental Results</h2>
-                We provide results on Cityscapes val subset and CamVid test subset. DFF and Accel50 are reimplemented
-                using DeepLabv3+ and the same FlowNet as in our method. In particular, visualization comparisons are
-                demonstrated, where T + i denotes the i-th frame from the key frame T. Besides, we calculate the average
-                computation cost by fixing the propagation distance as 5 for all methods. A lighter color in colorbar
-                represents higher computation cost. Best viewed in color and zoom in.
-                <h3>Cityscapes</h3>
-                <br>
-                <center><img src="./image/cityscapes_metric.png" border="0" width="70%"></center>
-                <center><img src="./image/cityscapes_56.png" border="0" width="90%"></center>
-                <center><img src="./image/cityscapes_85.png" border="0" width="90%"></center>
-                <center><img src="./image/cityscapes_136.png" border="0" width="90%"></center>
 
-                <h3>CamVid</h3>
+                Since dense distance annotations from LiDAR is unavailable in
+                UAV scenes, existing learning-based methods are not applicable.
+                To demonstrate the superiority of our method, we make a comparison with two popular classical methods, i.e., ADCensus and
+                ELAS, which do not rely on dense annotations. Particularly,
+                we reproduce these methods according to their official codes on
+                the proposed UAVDE dataset for fair comparison.
+                The performance comparison is shown in TABLE ??. Here,
+                Baseline and Baseline* represent stereo triangulation on UAV detection results and annotated bounding boxes, respectively. From
+                the results, we have the following observations. First, classical
+                methods perform poorly on UAV scenes. They are affected by
+                environmental interference, which results in error-prone disparity
+                estimation. Second, baseline performs better than classical methods benefited from the robustness of deep learning model, i.e.,
+                the YOLOX. However, it still suffers from the position deviation
+                issue. Annotated bounding boxes can only slightly improve the
+                performance, which indicates that we can not tackle this issue by
+                using a stronger detector. Third, our proposed method can significantly outperform its counterparts by over 39.0% improvement
+                by compensating the position deviation, which demonstrates its
+                superiority and effectiveness
+
+                <!-- <h3>Cityscapes</h3> -->
+                <br>
+                <center><img src="./figure/visualization.png" border="0" width="70%"></center>
+                <center><img src="./figure/table_1.png" border="0" width="90%"></center>
+                <center><img src="./figure/table_2.png" border="0" width="90%"></center>
+
+                <!-- <h3>CamVid</h3>
                 <br>
                 <center><img src="./image/camvid_metric.png" border="0" width="70%"></center>
                 <center><img src="./image/camvid_47.png" border="0" width="70%"></center>
                 <center><img src="./image/camvid_164.png" border="0" width="70%"></center>
-                <center><img src="./image/camvid_220.png" border="0" width="70%"></center>
+                <center><img src="./image/camvid_220.png" border="0" width="70%"></center> -->
 
             </div>
 
@@ -149,7 +192,7 @@
                             <div class="griditem">
                                 <a href="https://arxiv.org/abs/2006.10380" target="_blank" class="imageLink"><img
                                         src="./image/paper.png" border="0" width="50%"></a><br>
-                                <a href="https://arxiv.org/abs/2006.10380" target="_blank">Paper</a>
+                                <a href="https://arxiv.org/abs/2306.08939" target="_blank">Paper</a>
                             </div>
                         </li>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -170,12 +213,14 @@
             <div class="section citation">
                 <h2>Citation</h2>
                 <div class="section bibtex">
-                    <pre>@article{zhuang2020video,
-  title={Video Semantic Segmentation with Distortion-Aware Feature Correction},
-  author={Zhuang, Jiafan and Wang, Zilei and Wang, Bingke},
-  journal={arXiv preprint arXiv:2006.10380},
-  year={2020}
-}</pre>
+                    <pre>@misc{zhuang2023does,
+                        title={Why does Stereo Triangulation Not Work in UAV Distance Estimation},
+                        author={Jiafan Zhuang and Duan Yuan and Rihong Yan and Xiangyu Dong and Yutao Zhou and Weixin Huang and Zhun Fan},
+                        year={2023},
+                        eprint={2306.08939},
+                        archivePrefix={arXiv},
+                        primaryClass={cs.CV}
+                  }</pre>
                 </div>
             </div>
 
